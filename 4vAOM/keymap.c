@@ -562,3 +562,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 }
+bool mouse_jiggler_is_enabled(void);
+
+void housekeeping_task_user(void) {
+    static uint32_t f15_timer = 0;
+    if (mouse_jiggler_is_enabled() && timer_elapsed32(f15_timer) > 30000) {
+        f15_timer = timer_read32();
+        tap_code(KC_F15);
+    }
+}
